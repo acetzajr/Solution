@@ -3,7 +3,14 @@
 internal static class Program
 {
     [STAThread]
-    private static void Main() { }
+    private static void Main()
+    {
+        using var midi = new MidiServer();
+        midi.Start();
+        Console.WriteLine("Press enter to exit");
+        Console.ReadLine();
+        midi.Stop();
+    }
 
     public static void Sol()
     {

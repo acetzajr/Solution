@@ -12,6 +12,10 @@ internal class Provider : ISampleProvider
 
     public int Read(float[] buffer, int offset, int count)
     {
+        if (Audio.Instance.Stopped)
+        {
+            return 0;
+        }
         int read = 0;
         while (count-- > 0)
         {
