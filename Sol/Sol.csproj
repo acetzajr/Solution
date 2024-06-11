@@ -23,11 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\marqu\source\repos\Sol\Sol\.editorconfig" />
+    <EditorConfigFiles Remove=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\marqu\source\repos\Sol\Sol\.editorconfig" />
+    <None Include=".editorconfig" />
   </ItemGroup>
 
 </Project>
