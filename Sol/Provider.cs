@@ -14,12 +14,14 @@ internal class Provider : ISampleProvider
     {
         if (Audio.Instance.Stopped)
         {
+            Console.WriteLine("stopped");
             return 0;
         }
         int read = 0;
         while (count-- > 0)
         {
-            buffer[offset + read++] = 0;
+            buffer[offset + read++] = Audio.Instance.Buffer.NextSample();
+            //Console.WriteLine(buffer[offset + read - 1]);
         }
         return read;
     }

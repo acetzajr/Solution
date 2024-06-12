@@ -16,4 +16,17 @@ public static class Math
     {
         return MathF.Pow(10.0f, db / 10.0f);
     }
+
+    public static float Clamp(float value, float low, float high)
+    {
+        if (value < low)
+        {
+            return low;
+        }
+        if (value > high)
+        {
+            return high;
+        }
+        return value;
+    }
 }

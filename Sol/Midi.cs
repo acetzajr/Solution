@@ -1,15 +1,19 @@
-﻿using NAudio.CoreAudioApi;
-using NAudio.Midi;
+﻿using NAudio.Midi;
 
 namespace Sol;
 
-internal sealed class MidiServer : IDisposable
+internal sealed class Midi : IDisposable
 {
-    public MidiServer()
+    public static Midi Instance { get; } = new();
+
+    private Midi()
     {
         midi.MessageReceived += MessageReceived;
         midi.ErrorReceived += ErrorReceived;
     }
+
+    public delegate void MidiEventHandler(MidiEvent @event);
+    public event MidiEventHandler? OnMidiEvent;
 
     private readonly MidiIn midi = new(GetDeviceID());
 
@@ -41,14 +45,20 @@ internal sealed class MidiServer : IDisposable
         throw new Exception($"could not find {Constants.Midi} device");
     }
 
-    void ErrorReceived(object? sender, MidiInMessageEventArgs e)
+    void ErrorReceived(object? sender, MidiInMessageEventArgs @event)
     {
-        throw new Exception($"Time {e.Timestamp} Message 0x{e.RawMessage:X8} Event {e.MidiEvent}");
+        throw new Exception(
+            $"Time {@event.Timestamp} Message 0x{@event.RawMessage:X8} Event {@event.MidiEvent}"
+        );
     }
 
-    void MessageReceived(object? sender, MidiInMessageEventArgs e)
+    void MessageReceived(object? sender, MidiInMessageEventArgs eventArgs)
     {
-        Console.WriteLine($"Time {e.Timestamp} Message 0x{e.RawMessage:X8} Event {e.MidiEvent}");
+        var @event = MidiEvent.Parse(eventArgs.RawMessage);
+        if (@event is not null)
+        {
+            OnMidiEvent?.Invoke(@event);
+        }
     }
 
     public void Dispose()

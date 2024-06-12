@@ -17,7 +17,7 @@ internal static class Acetza
         (float)16 / 9,
         (float)243 / 128
     ];
-    public static float baseFrequency = 1.0f;
+    public static float baseFrequency = Constants.Base;
 
     public static float Frequency(int key)
     {

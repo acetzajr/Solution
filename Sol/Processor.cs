@@ -25,7 +25,7 @@ internal sealed class Processor : IDisposable
         processingThread.Join();
     }
 
-    public void BlockNotReady(Block block)
+    public void OnBlockNotReady(Block block)
     {
         blocks.Add(block);
     }
@@ -41,6 +41,7 @@ internal sealed class Processor : IDisposable
             }
             Synth.Instance.BeginBlockProcessing(block);
             Synth.Instance.EndBlockProcessing();
+            block.Ready = true;
         }
     }
 

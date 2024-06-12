@@ -5,18 +5,21 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        using var midi = new MidiServer();
+        using var audio = Audio.Instance;
+        using var midi = Midi.Instance;
+        using var synth = Synth.Instance;
+        using var processor = Processor.Instance;
+        midi.OnMidiEvent += synth.OnMidiEvent;
+        synth.Start();
+        processor.Start();
+        audio.Start();
         midi.Start();
         Console.WriteLine("Press enter to exit");
         Console.ReadLine();
+        Console.WriteLine("Goodbye...");
         midi.Stop();
-    }
-
-    public static void Sol()
-    {
-        using var processor = Processor.Instance;
-        Buffer.Instance.BlockNotReady += processor.BlockNotReady;
-        processor.Start();
+        audio.Stop();
         processor.Stop();
+        synth.Stop();
     }
 }
